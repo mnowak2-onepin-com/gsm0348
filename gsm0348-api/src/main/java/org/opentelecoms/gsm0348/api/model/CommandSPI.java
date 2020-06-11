@@ -8,6 +8,8 @@
 
 package org.opentelecoms.gsm0348.api.model;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -115,4 +117,36 @@ public class CommandSPI {
         this.ciphered = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CommandSPI)) {
+            return false;
+        }
+        final CommandSPI that = (CommandSPI) o;
+        return ciphered == that.ciphered &&
+            certificationMode == that.certificationMode &&
+            synchroCounterMode == that.synchroCounterMode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(certificationMode, synchroCounterMode, ciphered);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("CommandSPI [certificationMode=");
+        builder.append(certificationMode);
+        builder.append(", synchroCounterMode=");
+        builder.append(synchroCounterMode);
+        builder.append(", ciphered=");
+        builder.append(ciphered);
+        builder.append("]");
+        return builder.toString();
+    }
 }

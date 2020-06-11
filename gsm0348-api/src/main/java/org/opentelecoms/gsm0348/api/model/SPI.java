@@ -8,6 +8,8 @@
 
 package org.opentelecoms.gsm0348.api.model;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -93,4 +95,33 @@ public class SPI {
         this.responseSPI = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SPI)) {
+            return false;
+        }
+        final SPI spi = (SPI) o;
+        return Objects.equals(commandSPI, spi.commandSPI) &&
+            Objects.equals(responseSPI, spi.responseSPI);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(commandSPI, responseSPI);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SPI [commandSPI=");
+        builder.append(commandSPI);
+        builder.append(", responseSPI=");
+        builder.append(responseSPI);
+        builder.append("]");
+        return builder.toString();
+    }
 }

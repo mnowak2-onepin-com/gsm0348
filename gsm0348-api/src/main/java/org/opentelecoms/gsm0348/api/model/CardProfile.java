@@ -8,6 +8,9 @@
 
 package org.opentelecoms.gsm0348.api.model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -15,6 +18,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.opentelecoms.gsm0348.api.Util;
 
 
 /**
@@ -268,4 +273,53 @@ public class CardProfile {
         this.cipheringAlgorithm = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CardProfile)) {
+            return false;
+        }
+        final CardProfile that = (CardProfile) o;
+        return Objects.equals(name, that.name) &&
+            transportProtocol == that.transportProtocol &&
+            Objects.equals(kic, that.kic) &&
+            Objects.equals(kid, that.kid) &&
+            Objects.equals(spi, that.spi) &&
+            Arrays.equals(tar, that.tar) &&
+            Objects.equals(signatureAlgorithm, that.signatureAlgorithm) &&
+            Objects.equals(cipheringAlgorithm, that.cipheringAlgorithm);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(name, transportProtocol, kic, kid, spi, signatureAlgorithm, cipheringAlgorithm);
+        result = 31 * result + Arrays.hashCode(tar);
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("CardProfile [name=");
+        builder.append(name);
+        builder.append(", transportProtocol=");
+        builder.append(transportProtocol);
+        builder.append(", kic=");
+        builder.append(kic);
+        builder.append(", kid=");
+        builder.append(kid);
+        builder.append(", spi=");
+        builder.append(spi);
+        builder.append(", tar=");
+        builder.append(Util.toHexString(tar));
+        builder.append(", signatureAlgorithm=");
+        builder.append(signatureAlgorithm);
+        builder.append(", cipheringAlgorithm=");
+        builder.append(cipheringAlgorithm);
+        builder.append("]");
+        return builder.toString();
+    }
 }

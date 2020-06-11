@@ -8,6 +8,8 @@
 
 package org.opentelecoms.gsm0348.api.model;
 
+import java.util.Arrays;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -16,6 +18,8 @@ import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import org.opentelecoms.gsm0348.api.Util;
 
 
 /**
@@ -66,4 +70,30 @@ public class Packet {
         this.data = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Packet)) {
+            return false;
+        }
+        final Packet packet = (Packet) o;
+        return Arrays.equals(data, packet.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(data);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Packet [data=");
+        builder.append(Util.toHexString(data));
+        builder.append("]");
+        return builder.toString();
+    }
 }

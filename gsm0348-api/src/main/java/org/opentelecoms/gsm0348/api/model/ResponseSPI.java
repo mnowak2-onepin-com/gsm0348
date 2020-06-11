@@ -8,6 +8,8 @@
 
 package org.opentelecoms.gsm0348.api.model;
 
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -143,4 +145,39 @@ public class ResponseSPI {
         this.ciphered = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof ResponseSPI)) {
+            return false;
+        }
+        final ResponseSPI that = (ResponseSPI) o;
+        return ciphered == that.ciphered &&
+            poRProtocol == that.poRProtocol &&
+            poRMode == that.poRMode &&
+            poRCertificateMode == that.poRCertificateMode;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(poRProtocol, poRMode, poRCertificateMode, ciphered);
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("ResponseSPI [poRProtocol=");
+        builder.append(poRProtocol);
+        builder.append(", poRMode=");
+        builder.append(poRMode);
+        builder.append(", poRCertificateMode=");
+        builder.append(poRCertificateMode);
+        builder.append(", ciphered=");
+        builder.append(ciphered);
+        builder.append("]");
+        return builder.toString();
+    }
 }

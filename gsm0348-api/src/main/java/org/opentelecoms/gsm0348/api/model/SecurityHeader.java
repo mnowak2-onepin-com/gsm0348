@@ -8,6 +8,9 @@
 
 package org.opentelecoms.gsm0348.api.model;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -158,4 +161,43 @@ public class SecurityHeader
         this.counter = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SecurityHeader)) {
+            return false;
+        }
+        final SecurityHeader that = (SecurityHeader) o;
+        return paddingCounter == that.paddingCounter &&
+            Arrays.equals(tar, that.tar) &&
+            Arrays.equals(security, that.security) &&
+            Arrays.equals(counter, that.counter);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(paddingCounter);
+        result = 31 * result + Arrays.hashCode(tar);
+        result = 31 * result + Arrays.hashCode(security);
+        result = 31 * result + Arrays.hashCode(counter);
+        return result;
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SecurityHeader [tar=");
+        builder.append(Arrays.toString(tar));
+        builder.append(", paddingCounter=");
+        builder.append(paddingCounter);
+        builder.append(", security=");
+        builder.append(Arrays.toString(security));
+        builder.append(", counter=");
+        builder.append(Arrays.toString(counter));
+        builder.append("]");
+        return builder.toString();
+    }
 }
