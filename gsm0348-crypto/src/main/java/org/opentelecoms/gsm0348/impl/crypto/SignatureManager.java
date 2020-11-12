@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
  * @author Victor Platov
  */
 public class SignatureManager {
+  public static final String DES_EDE_MAC64 = "DESEDEMAC64";
   public static final String DES_MAC8_ISO9797_M1 = "DES_MAC8_ISO9797_M1";
   public static final String CRC_16 = "CRC16";
   public static final String CRC_32 = "CRC32";

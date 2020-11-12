@@ -27,7 +27,7 @@ public class CardProfileCoder {
   /**
    * Build {@linkplain CardProfile} from row byte array
    *
-   * @param datarow - the message heater {@linkplain byte[]} row.
+   * @param datarow - the message header {@linkplain byte[]} row.
    * @return CardProfile
    * @throws NullPointerException if <strong>datarow</strong> parameter is null.
    * @throws CodingException      if configuration is in inconsistent state.
@@ -45,8 +45,6 @@ public class CardProfileCoder {
     CardProfile newCardProfile = new CardProfile();
 
     ByteBuffer data = ByteBuffer.wrap(datarow);
-
-    // cardProfile.setSecurityBytesType(SecurityBytesType.WITH_LENGHTS);
 
     SPI spi = new SPI();
     spi.setCommandSPI(CommandSPICoder.encode(data.get()));
@@ -111,10 +109,10 @@ public class CardProfileCoder {
         case CRC:
           switch (kid.getCertificationAlgorithmMode()) {
             case CRC_16:
-              newCardProfile.setSignatureAlgorithm("CRC16");
+              newCardProfile.setSignatureAlgorithm(SignatureManager.CRC_16);
               break;
             case CRC_32:
-              newCardProfile.setSignatureAlgorithm("CRC32");
+              newCardProfile.setSignatureAlgorithm(SignatureManager.CRC_32);
               break;
           }
         case PROPRIETARY_IMPLEMENTATIONS:
@@ -131,14 +129,16 @@ public class CardProfileCoder {
 
             case TRIPLE_DES_CBC_2_KEYS:
             case TRIPLE_DES_CBC_3_KEYS:
-              newCardProfile.setSignatureAlgorithm("DESEDEMAC64");
+              newCardProfile.setSignatureAlgorithm(SignatureManager.DES_EDE_MAC64);
               break;
 
             default:
           }
           break;
         case AES:
-          newCardProfile.setSignatureAlgorithm("AESCMAC");
+          // For AES CMAC, use AES_CMAC_32 or AES_CMAC_64, default is SignatureManager.AES_CMAC_64
+          // Otherwise set the value explicit.
+          newCardProfile.setSignatureAlgorithm(SignatureManager.AES_CMAC_64);
           break;
       }
     }

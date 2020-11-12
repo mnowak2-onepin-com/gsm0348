@@ -28,6 +28,7 @@ import org.opentelecoms.gsm0348.api.model.SPI;
 import org.opentelecoms.gsm0348.api.model.SynchroCounterMode;
 import org.opentelecoms.gsm0348.api.model.TransportProtocol;
 import org.opentelecoms.gsm0348.impl.PacketBuilderFactory;
+import org.opentelecoms.gsm0348.impl.coders.CardProfileCoder;
 import org.opentelecoms.gsm0348.impl.coders.CommandSPICoder;
 import org.opentelecoms.gsm0348.impl.coders.KICCoder;
 import org.opentelecoms.gsm0348.impl.coders.KIDCoder;
@@ -364,6 +365,27 @@ public class Gsm0348Test {
     cardProfile.setSignatureAlgorithm(SignatureManager.AES_CMAC_64);
     PacketBuilder packetBuilder = PacketBuilderFactory.getInstance(cardProfile);
 
+    byte[] cipheringKey = new byte[]{ 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, (byte) 0x88, (byte) 0x99, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16 };
+    byte[] signatureKey = new byte[]{ 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, (byte) 0x88, (byte) 0x99, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16 };
+
+    byte[] commandPacketBytes = new byte[]{ 0x00, 0x18, 0x15, 0x06, 0x21, 0x12, 0x12, 0x01, 0x02, 0x03, 0x48, 0x14, (byte) 0xce, (byte) 0x84, (byte) 0xcb, (byte) 0xde, (byte) 0xbc, 0x1a, 0x0d, (byte) 0xf2, 0x0a, 0x5e, (byte) 0xe2, 0x0e, 0x74, (byte) 0xc6 };
+    CommandPacket commandPacket = packetBuilder.recoverCommandPacket(commandPacketBytes, cipheringKey, signatureKey);
+
+    Assert.assertEquals("KIC [keysetID=1, cipheringAlgorithmMode=AES_CBC, algorithmImplementation=AES]", commandPacket.getHeader().getKIC().toString());
+    Assert.assertEquals("KID [keysetID=1, certificationAlgorithmMode=AES_CMAC, algorithmImplementation=AES]", commandPacket.getHeader().getKID().toString());
+    Assert.assertArrayEquals(new byte[]{ (byte) 0x01, 0x02, 0x03 }, commandPacket.getHeader().getTAR());
+    Assert.assertArrayEquals(new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00 }, commandPacket.getHeader().getCounter());
+    Assert.assertEquals(0x00, commandPacket.getHeader().getPaddingCounter());
+    Assert.assertArrayEquals(new byte[]{ (byte) 0xaa, (byte) 0xbb }, commandPacket.getData());
+  }
+
+  @Test
+  public void should_recover_command_packet_aes() throws Exception {
+    byte[] cardSecurity = new byte[] { (byte) 0x16, (byte) 0x00, (byte) 0x12, (byte) 0x12 , (byte) 0x00, (byte) 0x00, (byte) 0x00};
+    CardProfile cardProfile = CardProfileCoder.encode(cardSecurity);
+    cardProfile.setTransportProtocol(TransportProtocol.SMS_PP);
+    // cardProfile.setSignatureAlgorithm(SignatureManager.AES_CMAC_64);
+    PacketBuilder packetBuilder = PacketBuilderFactory.getInstance(cardProfile);
     byte[] cipheringKey = new byte[]{ 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, (byte) 0x88, (byte) 0x99, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16 };
     byte[] signatureKey = new byte[]{ 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, (byte) 0x88, (byte) 0x99, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16 };
 

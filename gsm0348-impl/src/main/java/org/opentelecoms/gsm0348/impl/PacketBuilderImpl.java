@@ -228,7 +228,7 @@ public class PacketBuilderImpl implements PacketBuilder {
 
           case TRIPLE_DES_CBC_2_KEYS:
           case TRIPLE_DES_CBC_3_KEYS:
-            signatureAlgorithmName = "DESEDEMAC64";
+            signatureAlgorithmName = SignatureManager.DES_EDE_MAC64;
             break;
 
           default:
