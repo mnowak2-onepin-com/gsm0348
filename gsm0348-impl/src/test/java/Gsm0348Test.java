@@ -242,6 +242,29 @@ public class Gsm0348Test {
   }
 
   @Test
+  public void should_build_command_packet_des() throws Exception {
+    byte[] data = Hex.decode("A0A40000022F05A0D6000001AA");
+    byte[] tar = new byte[]{ (byte) 0xb0, (byte) 0x00, (byte) 0x10 };
+    byte[] counter = new byte[]{ 0, 0, 0, (byte) 0x15, (byte) 0x6c };
+    byte[] cipheringKey = new byte[]{ 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, (byte) 0x88, (byte) 0x99, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16 };
+    byte[] signatureKey = new byte[]{ 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, (byte) 0x88, (byte) 0x99, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16 };
+    CardProfile cardProfile = new CardProfile();
+    cardProfile.setTransportProtocol(TransportProtocol.SMS_PP);
+    SPI spi = new SPI();
+    spi.setCommandSPI(CommandSPICoder.encode((byte) 0x12));
+    spi.setResponseSPI(ResponseSPICoder.encode((byte) 0x21));
+    cardProfile.setSPI(spi);
+    cardProfile.setKIC(KICCoder.encode((byte) 0x10));
+    cardProfile.setKID(KIDCoder.encode(CertificationMode.CC, (byte) 0x15));
+    cardProfile.setTAR(tar);
+    cardProfile.setSignatureAlgorithm(SignatureManager.DES_MAC8_ISO9797_M1);
+    PacketBuilder packetBuilder = PacketBuilderFactory.getInstance(cardProfile);
+    byte[] commandBytes = packetBuilder.buildCommandPacket(data, counter, cipheringKey, signatureKey);
+
+    Assert.assertArrayEquals(Hex.decode("00231512211015B00010000000156C008C75DF0CCB3B7628A0A40000022F05A0D6000001AA"), commandBytes);
+  }
+
+  @Test
   public void should_build_command_packet_aes() throws Exception {
     byte[] data = new byte[]{ (byte) 0xaa, (byte) 0xbb };
     byte[] counter = new byte[]{ 0x00, 0x00, 0x00, 0x00, 0x00 };
