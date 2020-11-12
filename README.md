@@ -16,6 +16,7 @@ Finally, the code was adopted by the Open Telecoms project.
 
 ## News
 
+0. Fixed bug in CardProfileCoder for AES. Use AES_CMAC_64 as default signature algorithm for AES.
 0. Use NoPadding ciphers to retrieve padding data when data or signature ends with zeros.
 0. Replaced the SecurityBytesType with TransportProtocol enum to support the different formats.
 0. Added the proprietary XOR4 and XOR8 signing algorithms.
@@ -48,6 +49,7 @@ It provides a library for construction of Secured Packets with all required secu
 Short Message Service Point-to-Point (SMS-PP), Cell Broadcast (SMS-CB), USSD, CAT_TP and TCP/IP (HTTPS) are supported, except for the identification packer for TCP/IP.
 
 ### Links
+* [ETSI TS 102 225 v16.0.0](https://www.etsi.org/deliver/etsi_ts/102200_102299/102225/16.00.00_60/ts_102225v160000p.pdf)
 * [ETSI TS 102 225 v13.0.0](https://www.etsi.org/deliver/etsi_ts/102200_102299/102225/13.00.00_60/ts_102225v130000p.pdf)
 * [ETSI TS 131 115 v12.1.0](https://www.etsi.org/deliver/etsi_ts/131100_131199/131115/12.01.00_60/ts_131115v120100p.pdf)
 * [3GPP TS 31.115](https://www.3gpp.org/DynaReport/31115.htm)
