@@ -6,7 +6,11 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.opentelecoms.gsm0348.api.model.CardProfile;
 import org.opentelecoms.gsm0348.api.model.CertificationMode;
+import org.opentelecoms.gsm0348.api.model.PoRMode;
+import org.opentelecoms.gsm0348.api.model.PoRProtocol;
 import org.opentelecoms.gsm0348.api.model.SPI;
+import org.opentelecoms.gsm0348.api.model.SynchroCounterMode;
+import org.opentelecoms.gsm0348.impl.crypto.SignatureManager;
 
 public class CardProfileCoderTest {
 
@@ -31,11 +35,37 @@ public class CardProfileCoderTest {
 
     CardProfile cardProfile = CardProfileCoder.encode(card_profile);
 
+    assertEquals(CertificationMode.CC, cardProfile.getSPI().getCommandSPI().getCertificationMode());
+    assertEquals(SynchroCounterMode.NO_COUNTER, cardProfile.getSPI().getCommandSPI().getSynchroCounterMode());
+    assertEquals(PoRMode.REPLY_ALWAYS, cardProfile.getSPI().getResponseSPI().getPoRMode());
+    assertEquals(CertificationMode.NO_SECURITY, cardProfile.getSPI().getResponseSPI().getPoRCertificateMode());
+    assertEquals(PoRProtocol.SMS_SUBMIT, cardProfile.getSPI().getResponseSPI().getPoRProtocol());
     assertEquals(0x01, cardProfile.getKIC().getKeysetID());
     assertEquals(0x01, cardProfile.getKID().getKeysetID());
     assertEquals((byte) 0x12, KICCoder.decode(cardProfile.getKIC()));
     assertEquals((byte) 0x12, KIDCoder.decode(cardProfile.getKID()));
     assertArrayEquals(new byte[]{ (byte) 0xb0, (byte) 0x00, (byte) 0x10 }, cardProfile.getTAR());
+  }
+
+  @Test
+  public void test_security_card_profile_encoding_aes_cmac_64() throws Exception {
+
+    byte[] card_profile = new byte[] { (byte) 0x16, (byte) 0x00, (byte) 0x12, (byte) 0x12 , (byte) 0xb0, (byte) 0x00, (byte) 0x10};
+
+    CardProfile cardProfile = CardProfileCoder.encode(card_profile);
+
+    assertEquals(CertificationMode.CC, cardProfile.getSPI().getCommandSPI().getCertificationMode());
+    assertEquals(SynchroCounterMode.COUNTER_REPLAY_OR_CHECK, cardProfile.getSPI().getCommandSPI().getSynchroCounterMode());
+    assertEquals(PoRMode.NO_REPLY, cardProfile.getSPI().getResponseSPI().getPoRMode());
+    assertEquals(CertificationMode.NO_SECURITY, cardProfile.getSPI().getResponseSPI().getPoRCertificateMode());
+    assertEquals(PoRProtocol.SMS_DELIVER_REPORT, cardProfile.getSPI().getResponseSPI().getPoRProtocol());
+    assertEquals(0x01, cardProfile.getKIC().getKeysetID());
+    assertEquals(0x01, cardProfile.getKID().getKeysetID());
+    assertEquals((byte) 0x12, KICCoder.decode(cardProfile.getKIC()));
+    assertEquals((byte) 0x12, KIDCoder.decode(cardProfile.getKID()));
+    assertArrayEquals(new byte[]{ (byte) 0xb0, (byte) 0x00, (byte) 0x10 }, cardProfile.getTAR());
+
+    assertEquals(SignatureManager.AES_CMAC_64, cardProfile.getSignatureAlgorithm());
   }
 
   @Test
