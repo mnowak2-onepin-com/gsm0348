@@ -46,12 +46,12 @@ public class SignatureManager {
     return mac;
   }
 
-  private static byte[] runOwnMac(org.opentelecoms.gsm0348.impl.crypto.Mac mac, byte[] key, byte[] data, int size) {
+  private static byte[] runOwnMac(org.opentelecoms.gsm0348.impl.crypto.Mac mac, byte[] key, byte[] data) {
     // TODO: Fix incorrect IV value - should be the length of the block of underlying cipher not a magical constant
     CipherParameters params = new ParametersWithIV(new KeyParameter(key), new byte[8]);
     mac.init(params);
     mac.update(data, 0, data.length);
-    byte[] result = new byte[size];
+    byte[] result = new byte[mac.getMacSize()];
     mac.doFinal(result, 0);
     return result;
   }
@@ -60,13 +60,13 @@ public class SignatureManager {
       throws NoSuchAlgorithmException, InvalidKeyException {
     LOGGER.debug("Signing with algorithm {}, data {} length {}", algName, Util.toHexString(data), data.length);
     if (DES_MAC8_ISO9797_M1.equals(algName)) {
-      return runOwnMac(new DESMACISO9797M1(), key, data, 8);
+      return runOwnMac(new DESMACISO9797M1(), key, data);
     }
     if (CRC_16.equals(algName)) {
-      return runOwnMac(new CRC16X25(), key, data, 2);
+      return runOwnMac(new CRC16X25(), key, data);
     }
     if (CRC_32.equals(algName)) {
-      return runOwnMac(new CRC32(), key, data, 4);
+      return runOwnMac(new CRC32(), key, data);
     }
     if (AES_CMAC_64.equals(algName)) {
       return truncate(doWork("AESCMAC", key, data), 8);
@@ -75,10 +75,10 @@ public class SignatureManager {
       return truncate(doWork("AESCMAC", key, data), 4);
     }
     if (XOR4.equals(algName)) {
-      return runOwnMac(new XOR4(), key, data, 4);
+      return runOwnMac(new XOR4(), key, data);
     }
     if (XOR8.equals(algName)) {
-      return runOwnMac(new XOR8(), key, data, 8);
+      return runOwnMac(new XOR8(), key, data);
     }
     return doWork(algName, key, data);
   }

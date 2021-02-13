@@ -83,7 +83,7 @@ public abstract class AbstractCipherMac implements Mac {
   public int doFinal(byte[] output, int outputOffset) throws IllegalStateException {
     try {
       byte[] result = m_cipher.doFinal();
-      System.arraycopy(result, result.length - m_size, output, outputOffset, m_size);
+      System.arraycopy(result, 0, output, outputOffset, m_size);
       return m_size;
     } catch (IllegalBlockSizeException e) {
       LOGGER.error("Could not cipher (illegal block size)", e);
