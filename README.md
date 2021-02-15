@@ -57,10 +57,6 @@ Short Message Service Point-to-Point (SMS-PP), Cell Broadcast (SMS-CB), USSD, CA
 
 ### Maven Config
 ```
-<repository>
-   <id>GSM 03.48 Library</id>
-   <url>https://github.com/opentelecoms-org/gsm0348</url>
-</repository>
 <dependencies>
    <dependency>
       <groupId>org.opentelecoms.gsm0348</groupId>
@@ -82,15 +78,15 @@ mvn clean deploy
 ```
 For a proper release:
 ```
-mvn versions:set -DnewVersion=1.3.2
-git commit -a -m "Set version to release 1.3.2"
+mvn versions:set -DnewVersion=1.3.3
+git commit -a -m "Set version to release 1.3.3"
 git push origin
-git tag -a 1.3.2 -m "1.3.2"
+git tag -a 1.3.3 -m "1.3.3"
 git push --tags origin
 mvn clean deploy -P release
 mvn nexus-staging:release
-mvn versions:set -DnewVersion=1.3.3-SNAPSHOT
-git commit -a -m "Set version to 1.3.3-SNAPSHOT"
+mvn versions:set -DnewVersion=1.3.4-SNAPSHOT
+git commit -a -m "Set version to 1.3.4-SNAPSHOT"
 
 # Or when something went wrong
 mvn nexus-staging:drop
