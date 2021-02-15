@@ -8,6 +8,7 @@
   <name>GSM 03.48</name>
   <description>Java API and realization of GSM 03.48 (ETSI TS 102 225) standard</description>
   <url>https://github.com/opentelecoms-org/gsm0348</url>
+  <inceptionYear>2010</inceptionYear>
 
   <modules>
     <module>gsm0348-api</module>
@@ -22,7 +23,7 @@
     <commons-cli.version>1.4</commons-cli.version>
     <crc.version>1.0.2</crc.version>
     <jsr305.version>2.0.3</jsr305.version>
-    <junit.version>4.13.1</junit.version>
+    <junit.version>4.13.2</junit.version>
     <slf4j.version>1.7.30</slf4j.version>
 
     <jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>
