@@ -108,7 +108,6 @@ public class SignatureManager {
   }
 
   public static int signLength(final String algName) throws NoSuchAlgorithmException {
-    LOGGER.debug("Creating MAC for algorithm: {}", algName);
     switch (algName) {
       case DES_MAC8_ISO9797_M1:
         return 8;

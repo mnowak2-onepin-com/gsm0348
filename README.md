@@ -16,6 +16,7 @@ Finally, the code was adopted by the Open Telecoms project.
 
 ## News
 
+0. Fixed bug in the ciphered MAC implementations (DESMACISO9797M1) when the data size was a multiple of 8.
 0. Fixed bug in CardProfileCoder for AES. Use AES_CMAC_64 as default signature algorithm for AES.
 0. Use NoPadding ciphers to retrieve padding data when data or signature ends with zeros.
 0. Replaced the SecurityBytesType with TransportProtocol enum to support the different formats.
@@ -64,12 +65,12 @@ Short Message Service Point-to-Point (SMS-PP), Cell Broadcast (SMS-CB), USSD, CA
    <dependency>
       <groupId>org.opentelecoms.gsm0348</groupId>
       <artifactId>gsm0348-api</artifactId>
-      <version>1.3.1</version>
+      <version>1.3.2</version>
    </dependency>
    <dependency>
       <groupId>org.opentelecoms.gsm0348</groupId>
       <artifactId>gsm0348-impl</artifactId>
-      <version>1.3.1</version>
+      <version>1.3.2</version>
    </dependency>
 </dependencies>
 ```
@@ -88,8 +89,8 @@ git tag -a 1.3.2 -m "1.3.2"
 git push --tags origin
 mvn clean deploy -P release
 mvn nexus-staging:release
-mvn versions:set -DnewVersion=1.3.2-SNAPSHOT
-git commit -a -m "Set version to 1.3.2-SNAPSHOT"
+mvn versions:set -DnewVersion=1.3.3-SNAPSHOT
+git commit -a -m "Set version to 1.3.3-SNAPSHOT"
 
 # Or when something went wrong
 mvn nexus-staging:drop

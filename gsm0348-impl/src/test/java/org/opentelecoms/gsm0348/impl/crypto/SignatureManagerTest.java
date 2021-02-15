@@ -2,6 +2,7 @@ package org.opentelecoms.gsm0348.impl.crypto;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Security;
+import java.util.Random;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -49,7 +50,7 @@ public class SignatureManagerTest {
   }
 
   @Test
-  public void test_cbc_mac() throws Exception {
+  public void test_bc_des_mac() throws Exception {
     byte[] keyBytes = Hex.decode("0123456789abcdef");
     byte[] input = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
 
@@ -64,9 +65,68 @@ public class SignatureManagerTest {
   }
 
   @Test
-  public void test_des_ede_mac64() throws Exception {
+  public void test_bc_des_mac_64() throws Exception {
+    byte[] keyBytes = Hex.decode("0123456789abcdef");
+    byte[] input = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
+
+    SecretKey key = new SecretKeySpec(keyBytes, "DES");
+    javax.crypto.Mac mac = javax.crypto.Mac.getInstance("DESMAC64", "BC");
+
+    mac.init(key);
+    mac.update(input, 0, input.length);
+    byte[] out = mac.doFinal();
+
+    Assert.assertEquals("f1d30f6849312ca4", Hex.toHexString(out));
+  }
+
+  @Test
+  public void test_bc_des_ede_mac_64() throws Exception {
     byte[] keyBytes = Hex.decode("0123456789abcdef0123456789abcdef");
-    byte[] input  = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
+    byte[] input = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
+
+    SecretKey key = new SecretKeySpec(keyBytes, "DES");
+    javax.crypto.Mac mac = javax.crypto.Mac.getInstance("DESedeMac64", "BC");
+
+    mac.init(key);
+    mac.update(input, 0, input.length);
+    byte[] out = mac.doFinal();
+
+    Assert.assertEquals("f1d30f6849312ca4", Hex.toHexString(out));
+  }
+
+  @Test
+  public void test_gsm0348_des_mac8_iso9797_m1_vs_bc_des_mac_64() throws Exception {
+    Random random = new Random();
+    byte[] keyBytes = Hex.decode("0123456789abcdef");
+    for (int i = 0; i < 512; i++) {
+      byte[] input = new byte[i];
+      random.nextBytes(input);
+      Assert.assertArrayEquals(
+          SignatureManager.sign("DESMAC64", keyBytes, input),
+          SignatureManager.sign("DES_MAC8_ISO9797_M1", keyBytes, input));
+    }
+  }
+
+  @Test
+  public void test_des_mac_64() throws Exception {
+    byte[] keyBytes = Hex.decode("0123456789abcdef");
+    byte[] input = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
+    Assert.assertEquals("F1D30F6849312CA4",
+        Util.toHexString(SignatureManager.sign("DES_MAC8_ISO9797_M1", keyBytes, input)));
+  }
+
+  @Test
+  public void test_des_ede_2_keys_mac_64() throws Exception {
+    byte[] keyBytes = Hex.decode("0123456789abcdef0123456789abcdef");
+    byte[] input = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
+    Assert.assertEquals("F1D30F6849312CA4",
+        Util.toHexString(SignatureManager.sign("DESEDEMAC64", keyBytes, input)));
+  }
+
+  @Test
+  public void test_des_ede_3_keys_mac_64() throws Exception {
+    byte[] keyBytes = Hex.decode("0123456789abcdef0123456789abcdef0123456789abcdef");
+    byte[] input = Hex.decode("37363534333231204e6f77206973207468652074696d6520666f722000000000");
     Assert.assertEquals("F1D30F6849312CA4",
         Util.toHexString(SignatureManager.sign("DESEDEMAC64", keyBytes, input)));
   }
