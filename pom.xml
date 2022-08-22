@@ -19,7 +19,7 @@
 
   <properties>
     <beanutils.version>1.9.4</beanutils.version>
-    <bouncycastle.version>1.70</bouncycastle.version>
+    <bouncycastle.version>1.71.1</bouncycastle.version>
     <commons-cli.version>1.4</commons-cli.version>
     <crc.version>1.0.3</crc.version>
     <jsr305.version>2.0.3</jsr305.version>
@@ -31,18 +31,18 @@
     <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
     <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
-    <maven-release-plugin.version>3.0.0-M1</maven-release-plugin.version>
+    <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
+    <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
     <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
     <maven-surefire-plugin>3.0.0-M4</maven-surefire-plugin>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 
-    <java.version>1.7</java.version>
-    <java.source.version>1.7</java.source.version>
-    <java.target.version>1.7</java.target.version>
+    <java.version>1.8</java.version>
+    <java.source.version>1.8</java.source.version>
+    <java.target.version>1.8</java.target.version>
 
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
 
     <git.properties>git.properties</git.properties>
 
@@ -130,7 +130,7 @@
       </dependency>
       <dependency>
         <groupId>org.bouncycastle</groupId>
-        <artifactId>bcprov-jdk15on</artifactId>
+        <artifactId>bcprov-jdk18on</artifactId>
         <version>${bouncycastle.version}</version>
       </dependency>
       <dependency>
