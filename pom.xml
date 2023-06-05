@@ -19,7 +19,7 @@
 
   <properties>
     <beanutils.version>1.9.4</beanutils.version>
-    <bouncycastle.version>1.72</bouncycastle.version>
+    <bouncycastle.version>1.73</bouncycastle.version>
     <commons-cli.version>1.5.0</commons-cli.version>
     <crc.version>1.0.3</crc.version>
     <jsr305.version>3.0.2</jsr305.version>
@@ -28,13 +28,13 @@
 
     <jaxb2-maven-plugin.version>2.5.0</jaxb2-maven-plugin.version>
     <maven-bundle-plugin.version>3.5.1</maven-bundle-plugin.version>
-    <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
-    <maven-jar-plugin.version>3.2.2</maven-jar-plugin.version>
-    <maven-javadoc-plugin.version>3.4.0</maven-javadoc-plugin.version>
-    <maven-release-plugin.version>3.0.0-M5</maven-release-plugin.version>
-    <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
-    <maven-surefire-plugin>3.0.0-M4</maven-surefire-plugin>
+    <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+    <maven-release-plugin.version>3.1.0</maven-release-plugin.version>
+    <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
+    <maven-surefire-plugin>3.1.0</maven-surefire-plugin>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
 
     <java.version>1.8</java.version>
