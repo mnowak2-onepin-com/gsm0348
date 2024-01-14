@@ -5,7 +5,7 @@
     <artifactId>gsm0348</artifactId>
     <version>1.3.4-SNAPSHOT</version>
   </parent>
-  <groupId>org.opentelecoms.gsm0348</groupId>
+
   <artifactId>gsm0348-impl</artifactId>
   <name>GSM 03.48 :: Implementation</name>
   <description>Implementation</description>
@@ -58,7 +58,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>${maven-surefire-plugin}</version>
+        <version>${maven-surefire-plugin.version}</version>
         <configuration>
           <excludes>
             <exclude>**/TestCaseType.java</exclude>
