@@ -176,7 +176,8 @@ public class PacketBuilderImpl implements PacketBuilder {
       if (cardProfile.getKIC().getAlgorithmImplementation() == null) {
         throw new PacketBuilderConfigurationException("KIC AlgorithmImplementation cannot be null for ciphered command");
       }
-      if (cardProfile.getKIC().getCipheringAlgorithmMode() == null) {
+      if (cardProfile.getKIC().getCipheringAlgorithmMode() == null &&
+          cardProfile.getKIC().getAlgorithmImplementation() != AlgorithmImplementation.ALGORITHM_KNOWN_BY_BOTH_ENTITIES ) {
         throw new PacketBuilderConfigurationException("KIC CipheringAlgorithmMode cannot be null for ciphered command");
       }
     }
